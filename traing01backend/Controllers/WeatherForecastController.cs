@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace traing01backend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -25,16 +25,20 @@ namespace traing01backend.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public IActionResult Get()
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            WeatherForecast weatherForecast = new WeatherForecast()
             {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+                Date = DateTime.Today,
+            };
+            return Ok(weatherForecast);
         }
+        
+        [HttpPost]
+        public IActionResult Update(WeatherForecast WeatherForecast)
+        {
+            return Ok(WeatherForecast);
+        }
+
     }
 }
